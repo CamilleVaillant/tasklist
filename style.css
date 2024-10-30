@@ -1,0 +1,18 @@
+
+h1{
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h2{
+    text-transform: uppercase;
+    color: rgb(53, 52, 52);
+}
+#input{
+    border-radius: 5px;
+    border: 1px gray solid;
+}
+#btn{
+    border-radius: 5px;
+    border: 1px gray solid;
+}
