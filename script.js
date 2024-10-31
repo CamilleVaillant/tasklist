@@ -6,17 +6,18 @@ const tasks = [];
 
 console.log(taskInput, addTaskButton, ongoingTaskList, completedTaskList);
 
-
 addTaskButton.addEventListener('click', () => {
     const taskText = taskInput.value.trim();
-    if (taskText !== '') {
+
+    
+    if (tasks.some(task => task.toLowerCase() === taskText.toLowerCase())) {
+        alert("Cette tâche existe déjà !");
+    } else if (taskText !== '') {
         addTask(taskText);
+        tasks.push(taskText); 
         taskInput.value = '';
     }
 });
-
-
-
 
 function addTask(taskText) {
     const taskItem = document.createElement('li');
@@ -26,32 +27,31 @@ function addTask(taskText) {
     completeButton.textContent = 'Fait';
     completeButton.addEventListener('click', () => markAsCompleted(taskItem));
 
-    
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Supprimer';
-    deleteButton.addEventListener('click', () => taskItem.remove());
+    deleteButton.addEventListener('click', () => {
+        taskItem.remove();
+        removeFromTasks(taskText); 
+    });
 
-    
     taskItem.appendChild(completeButton);
     taskItem.appendChild(deleteButton);
-
 
     ongoingTaskList.appendChild(taskItem);
 }
 
 function markAsCompleted(taskItem) {
-    taskItem.querySelector('button').remove();
-    taskItem.querySelector('button').remove();
+    
+    taskItem.querySelectorAll('button').forEach(button => button.remove());
+    
+    
     completedTaskList.appendChild(taskItem);
 }
-addTaskButton.addEventListener('click', () => {
-    const taskText = taskInput.value.trim();
 
-    if(tasks.includes(taskText)) {
-        alert("cette tache existe déjà!");
-    } else {
-        addTask(taskText);
-        tasks.push(taskText);
-        taskInput.value ='';
+function removeFromTasks(taskText) {
+   
+    const taskIndex = tasks.findIndex(task => task.toLowerCase() === taskText.toLowerCase());
+    if (taskIndex !== -1) {
+        tasks.splice(taskIndex, 1);
     }
-});
+}
